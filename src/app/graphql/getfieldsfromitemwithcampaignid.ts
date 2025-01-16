@@ -49,8 +49,7 @@ export async function getFieldsFromItemWithCampaignId(campaignId: string): Promi
     }
 
     const responseData: GraphQLResponse = await response.json();
-    const textMessage = responseData.data.search.results.items[0].item.versions[0].notificationMessage.value || "NOT FOUND";
-
+    
     return responseData;
 }
 

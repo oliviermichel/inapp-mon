@@ -37,8 +37,7 @@ export async function GetCookie() {
          headers: headersList
        });
        
-       const data = await response.text();
-
+       
        const cookies = response.headers.getSetCookie();
 
        cachedCookies = cookies;

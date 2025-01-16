@@ -13,6 +13,7 @@ export default async function HealthMonitor() {
         isMenoCheck = menoResponse !== null;
     } catch (error) {
         isMenoCheck = false;
+        console.error(error);
     }
 
     try {
@@ -20,6 +21,7 @@ export default async function HealthMonitor() {
         isSitecoreCheck = sitecoreResponse !== null;
     } catch (error) {
         isSitecoreCheck = false;
+        console.error(error);
     }
 
     return (
