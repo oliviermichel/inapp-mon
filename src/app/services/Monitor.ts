@@ -31,7 +31,7 @@ async function createCardCheckInfoList(itemIds: string[], languages: string[], t
         const info: CardCheckInfo = {} as CardCheckInfo;
         const language = "en";
         const sitecoreItem = await fetchItemFromId(id, language);
-        await populateCardCheckInfo(info, id, sitecoreItem, languages);
+        await populateCardCheckInfo(info, id, sitecoreItem!, languages);
         CardCheckInfoList.push(manageCardCheckInfo(info, today));
     }));
 
