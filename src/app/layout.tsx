@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "InApp Metadata",
+  title: "InApp Monitoring",
   description: "Created with NextJS",
 };
 

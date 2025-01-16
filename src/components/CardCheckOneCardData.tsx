@@ -1,4 +1,6 @@
 import React from 'react';
+import { format } from 'date-fns';
+import Image from 'next/image';
 import { Card, CardContent, Typography, Tooltip, IconButton, Grid } from '@mui/material';
 import PageviewIcon from '@mui/icons-material/Pageview';
 import FlightTakeoffIcon from '@mui/icons-material/FlightTakeoff';
@@ -37,11 +39,16 @@ const CardCheckOneCardData: React.FC<CardCheckOneCardDataProps> = ({ info }) => 
         return sitecoreCount === menoCount;
     }
 
+    const getImagePath = (path: string | null) => {
+        if (!path)  return '';
+        return path.startsWith("https:") ? path : `https:${path}`;
+    }
+
     return (
-        <Grid container spacing={2}>
+        <Grid container spacing={2} className="cardContainer">
             {info.map((item, index) => (
-                <Grid item xs={6} key={index}>
-                    <Card>
+                <Grid item xs={3} key={index} className="cardItem">
+                    <Card className="cardContent">
                         <CardContent>
                             <Typography variant="h5" component="div">
                                 {item.campaignName}
@@ -50,12 +57,14 @@ const CardCheckOneCardData: React.FC<CardCheckOneCardDataProps> = ({ info }) => 
                                 {item.isPast && <FlightLandIcon color="success" titleAccess="Visible Before" />}
                                 <Tooltip title={
                                     <div>
-                                        <img src={item.imagePath} alt="Campaign" style={{ width: '100px', height: '100px' }} />
+                                        {item.imagePath && (
+                                            <Image src={getImagePath(item.imagePath)} alt="Campaign" width={100} height={100} />
+                                        )}
                                         <div>{item.header}</div>
                                         <hr />
                                         <div>CampaignName: {item.campaignName}</div>
                                         <div>Path: {item.path}</div>
-                                        <div>Interval: {item.startDate.toString()} - {item.endDate.toString()}</div>
+                                        <div>Interval: {format(new Date(item.startDate), 'yyyy-MM-dd')} - {format(new Date(item.endDate), 'yyyy-MM-dd')}</div>
                                         <div>Markets Meno: {item.marketsFromMeno?.join(', ') || ''}</div>
                                         <div>Markets Sitecore: {item.marketsFromSitecore?.join(', ') || ''}</div>
                                         <div>Models: {item.models}</div>
@@ -81,13 +90,15 @@ const CardCheckOneCardData: React.FC<CardCheckOneCardDataProps> = ({ info }) => 
                                 Header: {item.header}
                             </Typography>
                             <Typography variant="body2" color="text.secondary">
-                                Start Date: {item.startDate.toString()}
+                                Start Date: {format(new Date(item.startDate), 'yyyy-MM-dd')}
                             </Typography>
                             <Typography variant="body2" color="text.secondary">
-                                End Date: {item.endDate.toString()}
+                                End Date: {format(new Date(item.endDate), 'yyyy-MM-dd')}
                             </Typography>
                             <Typography variant="body2" color="text.secondary">
-                                <img src={item.imagePath} alt="Campaign Image" style={{ maxWidth: '100%' }} />
+                            {item.imagePath && (
+                                            <Image src={getImagePath(item.imagePath)} alt="Campaign" width={100} height={100} />
+                                        )}
                             </Typography>
                             <Typography variant="body2" color="text.secondary">
                                 Path: {item.path}
