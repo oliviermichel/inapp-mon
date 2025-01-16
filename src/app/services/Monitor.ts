@@ -124,7 +124,7 @@ async function populateImageFromSitecore(info: CardCheckInfo, sitecoreItem: Site
 }
 
 async function populateMenoInfo(info: CardCheckInfo, id: string) {
-    const menoItem : FeedMessage = await fetchMessageFromExternalId(id.toUpperCase());
+    const menoItem : FeedMessage | null = await fetchMessageFromExternalId(id.toUpperCase());
     if (menoItem == null || menoItem.attributes == null) {
         info.menoCheck = false;
     } else {
@@ -138,7 +138,7 @@ async function findSitecoreItem(id: string, languages: string[]) {
     for (const lang of languages) {
         const language = lang;
         const sitecoreItem = await fetchItemFromId(id, language);
-        if (!sitecoreItem.campaignName.includes("NOT FOUND")) {
+        if (sitecoreItem && !sitecoreItem.campaignName.includes("NOT FOUND")) {
             break;
         }
     }
