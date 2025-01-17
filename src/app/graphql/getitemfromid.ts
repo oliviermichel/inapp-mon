@@ -4,7 +4,7 @@ import { GetCookie } from './loginSitecore';
 
 let aspNetCookie: string | null = null;
 
-export async function getItemFromId(id: string, language: string = 'en'): Promise<SimpleItem | null> {
+export async function getItemFromId(id: string, language: string): Promise<SimpleItem | null> {
     await refreshAccessToken();
 
     const baseUrl = process.env.SITECORE_BASE_URL;

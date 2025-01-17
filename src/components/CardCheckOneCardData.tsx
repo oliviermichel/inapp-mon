@@ -44,14 +44,21 @@ const CardCheckOneCardData: React.FC<CardCheckOneCardDataProps> = ({ info }) => 
         return path.startsWith("https:") ? path : `https:${path}`;
     }
 
+    const removeSitecorePath = (path: string) => {
+        return path.replace("/sitecore/content/husqvarna/inappmessage/amc", "");
+    }
+
     return (
         <Grid container spacing={2} className="cardContainer">
             {info.map((item, index) => (
                 <Grid item xs={3} key={index} className="cardItem">
                     <Card className="cardContent">
-                        <CardContent>
+                        <CardContent className="cardContent">
+                        <div className="cardHeader">
                             <Typography variant="h5" component="div">
                                 {item.campaignName}
+                            </Typography>
+                            <Typography variant="body2" color="text.secondary">
                                 {item.visible && <PageviewIcon color="success" titleAccess="Visible" />}
                                 {item.isFuture && <FlightTakeoffIcon color="success" titleAccess="Visible Later" />}
                                 {item.isPast && <FlightLandIcon color="success" titleAccess="Visible Before" />}
@@ -67,7 +74,7 @@ const CardCheckOneCardData: React.FC<CardCheckOneCardDataProps> = ({ info }) => 
                                         <div>Interval: {format(new Date(item.startDate), 'yyyy-MM-dd')} - {format(new Date(item.endDate), 'yyyy-MM-dd')}</div>
                                         <div>Markets Meno: {item.marketsFromMeno?.join(', ') || ''}</div>
                                         <div>Markets Sitecore: {item.marketsFromSitecore?.join(', ') || ''}</div>
-                                        <div>Models: {item.models}</div>
+                                        <div>Models: {item.models?.join(', ') || ''}</div>
                                     </div>
                                 }>
                                     <IconButton>
@@ -75,25 +82,13 @@ const CardCheckOneCardData: React.FC<CardCheckOneCardDataProps> = ({ info }) => 
                                     </IconButton>
                                 </Tooltip>
                             </Typography>
+                        </div>
+                        <div className="cardDetails">
                             <Typography variant="body2" color="text.secondary">
-                                Markets From Sitecore: {item.marketsFromSitecore?.join(', ') || ''} 
-                                {areMarketsEqual(item.marketsFromSitecore, item.marketsFromMeno) ? <DoneIcon color="success" /> : <DangerousIcon color="error" />}
+                                {removeSitecorePath(item.path) || 'PATH not found in Sitecore'}
                             </Typography>
                             <Typography variant="body2" color="text.secondary">
-                                Markets From Meno: {item.marketsFromMeno?.join(', ') || ''}
-                                {areMarketsEqual(item.marketsFromSitecore, item.marketsFromMeno) ? <DoneIcon color="success" /> : <DangerousIcon color="error" />}
-                            </Typography>
-                            <Typography variant="body2" color="text.secondary">
-                                Language: {item.language}
-                            </Typography>
-                            <Typography variant="body2" color="text.secondary">
-                                Header: {item.header}
-                            </Typography>
-                            <Typography variant="body2" color="text.secondary">
-                                Start Date: {format(new Date(item.startDate), 'yyyy-MM-dd')}
-                            </Typography>
-                            <Typography variant="body2" color="text.secondary">
-                                End Date: {format(new Date(item.endDate), 'yyyy-MM-dd')}
+                                ({item.language}) <b>{item.header}</b>
                             </Typography>
                             <Typography variant="body2" color="text.secondary">
                             {item.imagePath && (
@@ -101,17 +96,43 @@ const CardCheckOneCardData: React.FC<CardCheckOneCardDataProps> = ({ info }) => 
                                         )}
                             </Typography>
                             <Typography variant="body2" color="text.secondary">
-                                Path: {item.path}
+                                Visible: {format(new Date(item.startDate), 'yyyy-MM-dd')} - {format(new Date(item.endDate), 'yyyy-MM-dd')}
                             </Typography>
                             <Typography variant="body2" color="text.secondary">
-                                Market Check: {item.marketCheck ? <DoneIcon color="success" /> : <DangerousIcon color="error" />}
+                                Markets From Sitecore: {item.marketsFromSitecore?.join(', ') || ''} 
                             </Typography>
                             <Typography variant="body2" color="text.secondary">
-                                Sitecore Check: {item.sitecoreCheck ? <DoneIcon color="success" /> : <DangerousIcon color="error" />}
-                            </Typography>
-                            <Typography variant="body2" color="text.secondary">
-                                MENO Check: {item.menoCheck ? <DoneIcon color="success" /> : <DangerousIcon color="error" />}
-                            </Typography>
+                                Markets From Meno: {item.marketsFromMeno?.join(', ') || ''}
+                           </Typography>
+                        </div>
+                        <div className="cardFooter">
+                            <Grid container spacing={1} className="smallCardContainer">
+                                <Grid item xs={4}>
+                                    <div className="smallCard">
+                                        <Typography variant="body2" color="text.secondary">
+                                            Markets OK
+                                        </Typography>
+                                        {item.marketCheck ? <DoneIcon color="success" /> : <DangerousIcon color="error" />}
+                                    </div>
+                                </Grid>
+                                <Grid item xs={4}>
+                                    <div className="smallCard">
+                                        <Typography variant="body2" color="text.secondary">
+                                            Is in Sitecore
+                                        </Typography>
+                                        {item.sitecoreCheck ? <DoneIcon color="success" /> : <DangerousIcon color="error" />}
+                                    </div>
+                                </Grid>
+                                <Grid item xs={4}>
+                                    <div className="smallCard">
+                                        <Typography variant="body2" color="text.secondary">
+                                            Is in MENO
+                                        </Typography>
+                                        {item.menoCheck ? <DoneIcon color="success" /> : <DangerousIcon color="error" />}
+                                    </div>
+                                </Grid>
+                            </Grid>
+                        </div>
                         </CardContent>
                     </Card>
                 </Grid>

@@ -5,6 +5,7 @@ fragment itemDataSimple on Message {
     startDate { formattedDateValue }
     endDate { formattedDateValue }
     marketCodes { targetItems { field(name: "Market Code") { value } } }
+    models { targetItems { field(name:"Id") { value } } }
     image1 { value }
 }
 
@@ -80,7 +81,7 @@ fragment itemData on Message {
                             campaignActionLinkInternal {rendered}
                             campaignActionLink {rendered}
                             messageType {rendered}
-                            models { targetItems {name}}
+                            models { targetItems {Id}}
                             startDate { formattedDateValue}
                             endDate { formattedDateValue}
                             messageCategory {value}

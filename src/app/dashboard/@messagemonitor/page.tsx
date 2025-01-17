@@ -27,7 +27,7 @@ export default async function MessageMonitor() {
 
     return (
         <div>
-            {Object.keys(items).map(key => (
+            {Object.keys(items).map((key, index) => (
                 
                 <Accordion key={key}>
                     <AccordionSummary
@@ -35,7 +35,30 @@ export default async function MessageMonitor() {
                         aria-controls="panel1-content"
                         id="panel1-header"
                     >
-                        <Typography component="span" color={counts[key].color}>{key} {counts[key].text}</Typography>
+                        <Typography component="span" color={counts[key].color} className="tableContainer">
+                            <table className="table">
+                                {index === 0 && (
+                                    <thead>
+                                        <tr>
+                                            <th>Category</th>
+                                            <th>Total Messages</th>
+                                            <th>Sitecore Errors</th>
+                                            <th>MENO Errors</th>
+                                            <th>Market Errors</th>
+                                        </tr>
+                                    </thead>
+                                )}
+                                <tbody>
+                                    <tr>
+                                        <td>{key}</td>
+                                        <td>{items[key].length}</td>
+                                        <td>{items[key].length - items[key].filter(x => x.sitecoreCheck).length}</td>
+                                        <td>{items[key].length - items[key].filter(x => x.menoCheck).length}</td>
+                                        <td>{items[key].length - items[key].filter(x => x.marketCheck).length}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </Typography>
                     </AccordionSummary>
                     <AccordionDetails>
                         <CardCheckOneCardData info={items[key]} />

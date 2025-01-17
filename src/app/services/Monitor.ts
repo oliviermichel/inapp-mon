@@ -52,20 +52,20 @@ async function createCardCheckInfoList(itemIds: string[], languages: string[], t
 async function populateCardCheckInfo(info: CardCheckInfo, id: string, sitecoreItem: SitecoreItem, languages: string[]) {
     const language = "en";
     if (sitecoreItem.campaignName.includes("NOT FOUND")) {
-        await findSitecoreItem(id, languages);
-    }
-    if (sitecoreItem == null)
-        {
-            await populateCardCheckInfoFromMeno(info, id);
+        const foundSitecoreItem = await findSitecoreItem(id, languages);
+        if (foundSitecoreItem) {
+            sitecoreItem = foundSitecoreItem;
         } else {
-            await populateCardCheckInfoFromSitecore(info, id, sitecoreItem, language);
+            await populateCardCheckInfoFromMeno(info, id);
+            return;
         }
+    }
+    await populateCardCheckInfoFromSitecore(info, id, sitecoreItem, language);
 }
 
 async function populateCardCheckInfoFromMeno(info: CardCheckInfo, id: string): Promise<void> {
     info.id = id;
-    info.sitecoreCheck = false;
-
+    
     const menoItem: FeedMessage | null = await fetchMessageFromExternalId(id.toUpperCase());
     if (!menoItem) {
         info.menoCheck = false;
@@ -134,14 +134,19 @@ async function populateMenoInfo(info: CardCheckInfo, id: string) {
     }
 }
 
-async function findSitecoreItem(id: string, languages: string[]) {
+async function findSitecoreItem(id: string, languages: string[]): Promise<SitecoreItem | null> {
+    const sitecoreItem: SitecoreItem | null = null;
     for (const lang of languages) {
         const language = lang;
         const sitecoreItem = await fetchItemFromId(id, language);
         if (sitecoreItem && !sitecoreItem.campaignName.includes("NOT FOUND")) {
-            break;
+            return sitecoreItem;
         }
     }
+    if (sitecoreItem == null) {
+        console.log(`Could not find sitecore item with id ${id}`);
+    }
+    return sitecoreItem;
 }
 
 function formatSimpleGuid(guid: string): string {
