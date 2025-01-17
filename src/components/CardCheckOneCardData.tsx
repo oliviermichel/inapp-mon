@@ -33,12 +33,6 @@ interface CardCheckOneCardDataProps {
 }
 
 const CardCheckOneCardData: React.FC<CardCheckOneCardDataProps> = ({ info }) => {
-    const areMarketsEqual = (marketsSitecore: string[] | null, marketsMeno: string[] | null) => {
-        const sitecoreCount = marketsSitecore?.length || 0;
-        const menoCount = marketsMeno?.length || 0;
-        return sitecoreCount === menoCount;
-    }
-
     const getImagePath = (path: string | null) => {
         if (!path)  return '';
         return path.startsWith("https:") ? path : `https:${path}`;
