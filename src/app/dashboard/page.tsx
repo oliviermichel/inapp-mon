@@ -16,7 +16,9 @@ const Dashboard: React.FC = () => {
     }, [router]);
 
     return (
-        <div>Welcome to the dashboard</div>
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '10vh' }}>
+            <h1 style={{ fontSize: '3rem', textAlign: 'center' }}>InApp Monitoring</h1>
+        </div>
     );
 };
 

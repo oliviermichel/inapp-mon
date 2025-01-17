@@ -34,7 +34,7 @@ export default function RootLayout({
           </nav>
         </header>
         {children}
-        <footer className="footer">Footer</footer>
+        <footer className="footer"></footer>
       </body>
     </html>
   );

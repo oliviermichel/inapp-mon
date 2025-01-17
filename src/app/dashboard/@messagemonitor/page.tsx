@@ -50,7 +50,7 @@ export default async function MessageMonitor() {
                                 )}
                                 <tbody>
                                     <tr>
-                                        <td>{key}</td>
+                                        <td>{key} <ExpandMoreIcon /></td>
                                         <td>{items[key].length}</td>
                                         <td>{items[key].length - items[key].filter(x => x.sitecoreCheck).length}</td>
                                         <td>{items[key].length - items[key].filter(x => x.menoCheck).length}</td>
