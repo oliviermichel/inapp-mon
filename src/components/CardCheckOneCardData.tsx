@@ -8,28 +8,10 @@ import FlightLandIcon from '@mui/icons-material/FlightLand';
 import DoneIcon from '@mui/icons-material/Done';
 import DangerousIcon from '@mui/icons-material/Dangerous';
 import HelpIcon from '@mui/icons-material/Help';
-
-interface CardCheckInfo {
-    campaignName: string;
-    marketsFromSitecore: string[];
-    marketsFromMeno: string[];
-    language: string;
-    header: string;
-    startDate: Date;
-    endDate: Date;
-    imagePath: string;
-    path: string;
-    visible: boolean;
-    isFuture: boolean;
-    isPast: boolean;
-    marketCheck: boolean;
-    sitecoreCheck: boolean;
-    menoCheck: boolean;
-    models: string[];
-}
+import { CardCompleteInfo } from '@/types/CardCompleteInfo';
 
 interface CardCheckOneCardDataProps {
-    info: CardCheckInfo[];
+    info: CardCompleteInfo;
 }
 
 const CardCheckOneCardData: React.FC<CardCheckOneCardDataProps> = ({ info }) => {
@@ -39,12 +21,21 @@ const CardCheckOneCardData: React.FC<CardCheckOneCardDataProps> = ({ info }) => 
     }
 
     const removeSitecorePath = (path: string) => {
+        if (!path) return '';
         return path.replace("/sitecore/content/husqvarna/inappmessage/amc", "");
+    }
+
+    const formatDate = (date: string | Date) => {
+        const parsedDate = new Date(date);
+        if (isNaN(parsedDate.getTime())) {
+            return ''; // Return an empty string if the date is invalid
+        }
+        return format(parsedDate, 'yyyy-MM-dd');
     }
 
     return (
         <Grid container spacing={2} className="cardContainer">
-            {info.map((item, index) => (
+            {info.items.map((item, index) => (
                 <Grid item xs={3} key={index} className="cardItem">
                     <Card className="cardContent">
                         <CardContent className="cardContent">
@@ -65,7 +56,7 @@ const CardCheckOneCardData: React.FC<CardCheckOneCardDataProps> = ({ info }) => 
                                         <hr />
                                         <div>CampaignName: {item.campaignName}</div>
                                         <div>Path: {item.path}</div>
-                                        <div>Interval: {format(new Date(item.startDate), 'yyyy-MM-dd')} - {format(new Date(item.endDate), 'yyyy-MM-dd')}</div>
+                                        <div>Interval: {formatDate(item.startDate)} - {formatDate(item.endDate)}</div>
                                         <div>Markets Meno: {item.marketsFromMeno?.join(', ') || ''}</div>
                                         <div>Markets Sitecore: {item.marketsFromSitecore?.join(', ') || ''}</div>
                                         <div>Models: {item.models?.join(', ') || ''}</div>
@@ -90,7 +81,7 @@ const CardCheckOneCardData: React.FC<CardCheckOneCardDataProps> = ({ info }) => 
                                         )}
                             </Typography>
                             <Typography variant="body2" color="text.secondary">
-                                Visible: {format(new Date(item.startDate), 'yyyy-MM-dd')} - {format(new Date(item.endDate), 'yyyy-MM-dd')}
+                                Visible: {formatDate(item.startDate)} - {formatDate(item.endDate)}
                             </Typography>
                             <Typography variant="body2" color="text.secondary">
                                 Markets From Sitecore: {item.marketsFromSitecore?.join(', ') || ''} 

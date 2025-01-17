@@ -1,8 +1,5 @@
-//import Card from "@/components/card";
 import CardCheckOneCardData from '@/components/CardCheckOneCardData';
-//import CardAccordion from "@/components/CardAccordion";
 import Accordion from '@mui/material/Accordion';
-//import AccordionActions from '@mui/material/AccordionActions';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
@@ -15,10 +12,10 @@ export default async function MessageMonitor() {
     
     const counts: { [key: string]: {text: string, color: string } } = {};
     Object.keys(items).forEach(key => {
-        const nbMessages = items[key].length;
-        const nbMenoCheck = nbMessages - items[key].filter(x => x.menoCheck).length;
-        const nbSitecoreCheck = nbMessages - items[key].filter(x => x.sitecoreCheck).length;
-        const nbMarketCheck = nbMessages - items[key].filter(x => x.marketCheck).length;
+        const nbMessages = items[key].items.length;
+        const nbMenoCheck = nbMessages - items[key].items.filter(x => x.menoCheck).length;
+        const nbSitecoreCheck = nbMessages - items[key].items.filter(x => x.sitecoreCheck).length;
+        const nbMarketCheck = nbMessages - items[key].items.filter(x => x.marketCheck).length;
 
         const text = `${key}: ${nbMessages} messages - Sitecore: ${nbSitecoreCheck} Errors - MENO: ${nbMenoCheck} Errors - Markets: ${nbMarketCheck} Errors`;
         const color = (nbMenoCheck + nbSitecoreCheck + nbMarketCheck) > 0 ? "red" : "";
@@ -42,6 +39,7 @@ export default async function MessageMonitor() {
                                         <tr>
                                             <th>Category</th>
                                             <th>Total Messages</th>
+                                            <th>Total Visible Messages</th>
                                             <th>Sitecore Errors</th>
                                             <th>MENO Errors</th>
                                             <th>Market Errors</th>
@@ -50,11 +48,12 @@ export default async function MessageMonitor() {
                                 )}
                                 <tbody>
                                     <tr>
-                                        <td>{key} <ExpandMoreIcon /></td>
-                                        <td>{items[key].length}</td>
-                                        <td>{items[key].length - items[key].filter(x => x.sitecoreCheck).length}</td>
-                                        <td>{items[key].length - items[key].filter(x => x.menoCheck).length}</td>
-                                        <td>{items[key].length - items[key].filter(x => x.marketCheck).length}</td>
+                                        <td>{key} <ExpandMoreIcon /><br /><i>{items[key].header}</i></td>
+                                        <td>{items[key].items.length}</td>
+                                        <td>{items[key].items.filter(x => x.visible).length}</td>
+                                        <td>{items[key].items.length - items[key].items.filter(x => x.sitecoreCheck).length}</td>
+                                        <td>{items[key].items.length - items[key].items.filter(x => x.menoCheck).length}</td>
+                                        <td>{items[key].items.length - items[key].items.filter(x => x.marketCheck).length}</td>
                                     </tr>
                                 </tbody>
                             </table>

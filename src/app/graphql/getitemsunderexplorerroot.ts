@@ -1,9 +1,10 @@
 import { GetItemsUnderExplorerRoot } from './queries';
 import { GetCookie } from './loginSitecore';
+import { ExplorerRootItem } from '@/types/ExplorerRootItem';
 
 let aspNetCookie: string | null = null;
 
-export async function getItemsUnderExplorerRoot(): Promise<Record<string, string[]> | null> {
+export async function getItemsUnderExplorerRoot(): Promise<Record<string, ExplorerRootItem> | null> {
     await refreshAccessToken();
     
     const baseUrl = process.env.SITECORE_BASE_URL;
@@ -31,7 +32,7 @@ export async function getItemsUnderExplorerRoot(): Promise<Record<string, string
     }
 
     const responseData = await response.json();
-    const result: Record<string, string[]> = {};
+    const result: Record<string, ExplorerRootItem> = {};
 
     if (!responseData || !responseData.data || !responseData.data.item) {
         return result;
@@ -40,8 +41,13 @@ export async function getItemsUnderExplorerRoot(): Promise<Record<string, string
     for (const item of responseData.data.item.children) {
         const cardName: string = item.name;
         const childrenValue: string = item.messages?.value || '';
-        const children: string[] = childrenValue ? childrenValue.split('|') : [];
-        result[cardName] = children;
+        const explorerRootItem : ExplorerRootItem = {
+            items: childrenValue ? childrenValue.split('|') : [],
+            messageHeader: item.MessageHeader?.value || '',
+            teaserHeader: item.TeaserHeader?.value || ''
+        }
+
+        result[cardName] = explorerRootItem;
     }
 
     return result;

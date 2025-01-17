@@ -46,6 +46,8 @@ item(path: "/sitecore/content/Husqvarna/InAppMessage/AMC/ExplorerRoot") {
   children {
     id
     name
+    MessageHeader: field(name:"MessageHeader"){name value}
+    TeaserHeader: field(name:"TeaserHeader"){name value}
     path
     ... on InAppExplorerHeroCard {messages {value}}
     ... on InAppExplorerListCard {messages {value}}

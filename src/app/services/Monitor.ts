@@ -7,10 +7,12 @@ import { fetchListItems } from "./fetchListItems";
 import { fetchItemFromId } from "./fetchItemFromId";
 import { fetchImageUrls } from "./fetchImageUrls";
 import { fetchMessageFromExternalId } from "./fetchMessageFromExternalId";
+import { CardCompleteInfo } from "@/types/CardCompleteInfo";
 
-export async function performCardCheck(today : Date): Promise<{ [key: string]: CardCheckInfo[] }> {
 
-    const result: { [key: string]: Array<CardCheckInfo> } = {};
+export async function performCardCheck(today : Date): Promise<{ [key: string]: CardCompleteInfo }> {
+
+    const result: { [key: string]: CardCompleteInfo } = {};
     const languages: string[] = [
         "de-AT", "fr-BE", "de-CH", "de-DE", "da-DK", "fr-FR", "nl-NL", 
         "nb-NO", "sv-SE", "fi-FI", "en-GB", "en-US", "en-gb", "en-001"
@@ -18,7 +20,10 @@ export async function performCardCheck(today : Date): Promise<{ [key: string]: C
     const listItems = await fetchListItems();
     for (const key in listItems) {
         if (listItems.hasOwnProperty(key)) {
-            result[key] = await createCardCheckInfoList(listItems[key], languages, today);
+            const items : CardCheckInfo[] = await createCardCheckInfoList(listItems[key].items, languages, today);
+            const header = listItems[key].messageHeader || listItems[key].teaserHeader;
+            const cardCompleteInfo : CardCompleteInfo = { items, header };
+            result[key] = cardCompleteInfo;
         }
     }
     return result;
@@ -154,8 +159,8 @@ function formatSimpleGuid(guid: string): string {
 }
 
 function manageCardCheckInfo(info: CardCheckInfo, today: Date): CardCheckInfo {
-    info.startDateString = formatDateString(info.startDate);
-    info.endDateString = formatDateString(info.endDate);
+    info.startDateString = info.startDate && formatDateString(info.startDate);
+    info.endDateString = info.endDate && formatDateString(info.endDate);
     setCardCheckVisibility(info, today);
     setCardCheckModelString(info);
     setCardCheckMarketsStrings(info);
@@ -164,6 +169,10 @@ function manageCardCheckInfo(info: CardCheckInfo, today: Date): CardCheckInfo {
 }
 
 function formatDateString(date: Date): string {
+    if (isNaN(date.getTime())) {
+        // Return an empty string or a default value if the date is invalid
+        return '';
+    }
     return format(date, 'yyyy-MM-dd');
 }
 
@@ -174,7 +183,7 @@ function setCardCheckVisibility(info: CardCheckInfo, today: Date): void {
 }
 
 function setCardCheckModelString(info: CardCheckInfo): void {
-    info.modelString = info.models.length == 0 ? "" : info.models.join(', ');
+    info.modelString = !info.models || info.models.length == 0 ? "" : info.models.join(', ');
 }
 
 function setCardCheckMarketsStrings(info: CardCheckInfo): void {
