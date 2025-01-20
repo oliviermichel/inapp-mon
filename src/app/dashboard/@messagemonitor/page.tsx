@@ -4,8 +4,6 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { FaCheckCircle   } from 'react-icons/fa';
-import { RxCrossCircled   } from 'react-icons/rx';
 import { performCardCheck } from '@/services/Monitor';
 
 export default async function MessageMonitor() {
