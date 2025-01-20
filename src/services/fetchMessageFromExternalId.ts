@@ -1,5 +1,5 @@
 import { FeedMessage } from "@/types/FeedMessage";
-import { getMessageFromExternalId } from "../meno/getMessageFromExternId";
+import { getMessageFromExternalId } from "./meno/getMessageFromExternId";
 
 export async function fetchMessageFromExternalId(externalId: string): Promise<FeedMessage | null> {
     const response = await getMessageFromExternalId(externalId);

@@ -84,11 +84,16 @@ const CardCheckOneCardData: React.FC<CardCheckOneCardDataProps> = ({ info }) => 
                                 Visible: {formatDate(item.startDate)} - {formatDate(item.endDate)}
                             </Typography>
                             <Typography variant="body2" color="text.secondary">
-                                Markets From Sitecore: {item.marketsFromSitecore?.join(', ') || ''} 
+                                {item.marketsFromSitecore?.length > 0 ? 
+                                `Markets From Sitecore: ${item.marketsFromSitecore?.join(', ')}` : `Sitecore: ALL markets` }
                             </Typography>
                             <Typography variant="body2" color="text.secondary">
-                                Markets From Meno: {item.marketsFromMeno?.join(', ') || ''}
-                           </Typography>
+                                {item.marketsFromMeno?.length > 0 ? 
+                                `Markets From Meno: ${item.marketsFromMeno?.join(', ')}` : `Meno: ALL markets` }
+                            </Typography>
+                            <Typography variant="body2" color="text.secondary">
+                                {item.models?.length > 0 ? `Models: ${item.models?.length} models`  : ''}
+                            </Typography>
                         </div>
                         <div className="cardFooter">
                             <Grid container spacing={1} className="smallCardContainer">

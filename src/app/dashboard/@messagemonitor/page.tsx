@@ -4,7 +4,9 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { performCardCheck } from '@/app/services/Monitor';
+import { FaCheckCircle   } from 'react-icons/fa';
+import { RxCrossCircled   } from 'react-icons/rx';
+import { performCardCheck } from '@/services/Monitor';
 
 export default async function MessageMonitor() {
     const currentDate = new Date(Date.now());
@@ -18,7 +20,7 @@ export default async function MessageMonitor() {
         const nbMarketCheck = nbMessages - items[key].items.filter(x => x.marketCheck).length;
 
         const text = `${key}: ${nbMessages} messages - Sitecore: ${nbSitecoreCheck} Errors - MENO: ${nbMenoCheck} Errors - Markets: ${nbMarketCheck} Errors`;
-        const color = (nbMenoCheck + nbSitecoreCheck + nbMarketCheck) > 0 ? "red" : "";
+        const color = (nbMenoCheck + nbSitecoreCheck + nbMarketCheck) > 0 ? "" : "";
         counts[key] = {text: text, color: color };
     });
 
@@ -51,9 +53,15 @@ export default async function MessageMonitor() {
                                         <td>{key} <ExpandMoreIcon /><br /><i>{items[key].header}</i></td>
                                         <td>{items[key].items.length}</td>
                                         <td>{items[key].items.filter(x => x.visible).length}</td>
-                                        <td>{items[key].items.length - items[key].items.filter(x => x.sitecoreCheck).length}</td>
-                                        <td>{items[key].items.length - items[key].items.filter(x => x.menoCheck).length}</td>
-                                        <td>{items[key].items.length - items[key].items.filter(x => x.marketCheck).length}</td>
+                                        <td className={items[key].items.length - items[key].items.filter(x => x.sitecoreCheck).length > 0 ? 'errorCell' : ''}>
+                                            {items[key].items.length - items[key].items.filter(x => x.sitecoreCheck).length}
+                                        </td>
+                                        <td className={items[key].items.length - items[key].items.filter(x => x.menoCheck).length > 0 ? 'errorCell' : ''}>
+                                            {items[key].items.length - items[key].items.filter(x => x.menoCheck).length}
+                                        </td>
+                                        <td className={items[key].items.length - items[key].items.filter(x => x.marketCheck).length > 0 ? 'errorCell' : ''}>
+                                            {items[key].items.length - items[key].items.filter(x => x.marketCheck).length}
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>

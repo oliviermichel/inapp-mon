@@ -1,8 +1,8 @@
 import React from 'react';
 import Card from "@/components/card";
 import HealthCheckBox from "@/components/heathcheckbox";
-import { getMessageFromCampaignName } from '@/app/meno/getMessageFromCampaignName';
-import { getItemsUnderExplorerRoot } from '@/app/graphql/getitemsunderexplorerroot';
+import { getMessageFromCampaignName } from '@/services/meno/getMessageFromCampaignName';
+import { getItemsUnderExplorerRoot } from '@/services/graphql/getitemsunderexplorerroot';
 
 export default async function HealthMonitor() {
     let isMenoCheck = false;

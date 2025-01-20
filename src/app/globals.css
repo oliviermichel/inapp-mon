@@ -152,3 +152,13 @@ body {
 .table th, .table td {
   padding: 12px 15px;
 }
+
+.errorCell {
+  background-color: rgb(244, 166, 166);
+  color: white;
+}
+
+.iconContainer {
+  display: flex;
+  align-items: center;
+}
