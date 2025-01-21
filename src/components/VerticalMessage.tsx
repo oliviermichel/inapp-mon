@@ -1,7 +1,7 @@
 import { getImageUrls } from "@/services/aprimo/getImageUrls";
 import { getItemFromId } from "@/services/graphql/getitemfromid";
 import { SimpleItem } from "@/types/SimpleItem";
-import { Card, CardContent, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import Image from 'next/image';
 
 async function getItem(itemId: string, language: string): Promise<SimpleItem | null> {

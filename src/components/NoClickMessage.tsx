@@ -1,24 +1,11 @@
-import { getImageUrls } from "@/services/aprimo/getImageUrls";
 import { getItemFromId } from "@/services/graphql/getitemfromid";
 import { SimpleItem } from "@/types/SimpleItem";
-import { CardContent, Typography } from "@mui/material";
 import lightbulbIcon from '@/assets/lightbulb-icon.png';
 import Image from 'next/image';
+import { Typography } from "@mui/material";
 
 async function getItem(itemId: string, language: string): Promise<SimpleItem | null> {
     return getItemFromId(itemId, language);
-}
-
-async function getImageUrl(itemId: string): Promise<string | null> {
-    const images = await getImageUrls(itemId, '360', '200');
-    if (images && images.length > 0) {
-        let url = images[0].Url;
-        if (url.startsWith('//')) {
-            url = 'https:' + url;
-        }
-        return url;
-    }
-    return null; // Return null if no images are found
 }
 
 

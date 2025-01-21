@@ -1,12 +1,10 @@
 import React from 'react';
 import { ExplorerRootItem } from "@/types/ExplorerRootItem";
 import { Card, CardContent, Typography } from "@mui/material";
-import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css'; // Import carousel styles
 import { SimpleItem } from '@/types/SimpleItem';
 import { getItemFromId } from '@/services/graphql/getitemfromid';
 import { getImageUrls } from '@/services/aprimo/getImageUrls';
-import Image from 'next/image';
 import HeroMessage from './HeroMessage';
 
 async function getItem(itemId: string, language: string): Promise<SimpleItem | null> {
