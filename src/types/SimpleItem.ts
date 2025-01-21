@@ -3,6 +3,7 @@ export class SimpleItem {
     imageId: string;
     campaignName: string;
     header: string;
+    message: string;
     language: string;
     startDate: Date;
     endDate: Date;
@@ -14,6 +15,7 @@ export class SimpleItem {
         this.id = '';
         this.imageId = '';
         this.campaignName = '';
+        this.message = '';
         this.header = '';
         this.language = '';
         this.startDate = new Date();

@@ -10,6 +10,10 @@ export async function getItemsUnderExplorerRoot(): Promise<Record<string, Explor
     const baseUrl = process.env.SITECORE_BASE_URL;
     const graphQlApiUrl = process.env.SITECORE_GRAPHQL_ENDPOINT;
 
+    if (!baseUrl) {
+        throw new Error('SITECORE_BASE_URL is not defined');
+    }
+
     const requestData = {
         query: GetItemsUnderExplorerRoot,
         variables: {}
@@ -44,7 +48,10 @@ export async function getItemsUnderExplorerRoot(): Promise<Record<string, Explor
         const explorerRootItem : ExplorerRootItem = {
             items: childrenValue ? childrenValue.split('|') : [],
             messageHeader: item.MessageHeader?.value || '',
-            teaserHeader: item.TeaserHeader?.value || ''
+            teaserHeader: item.TeaserHeader?.value || '',
+            cardType: item.template?.name || '',
+            teaserDescription: item.TeaserDescription?.value || '',
+            image: item.Image?.value || ''
         }
 
         result[cardName] = explorerRootItem;

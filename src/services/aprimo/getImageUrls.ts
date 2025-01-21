@@ -22,6 +22,5 @@ export async function getImageUrls(id: string, maxWidth: string, maxHeight: stri
     }
 
     const imageData: AprimoImage[] = await response.json();
-    
     return imageData;
 }

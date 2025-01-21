@@ -92,7 +92,7 @@ const CardCheckOneCardData: React.FC<CardCheckOneCardDataProps> = ({ info }) => 
                                 `Markets From Meno: ${item.marketsFromMeno?.join(', ')}` : `Meno: ALL markets` }
                             </Typography>
                             <Typography variant="body2" color="text.secondary">
-                                {item.models?.length > 0 ? `Models: ${item.models?.length} models`  : ''}
+                                {item.models?.length > 0 ? `Models: ${item.models?.length} models`  : `ALL models`}
                             </Typography>
                         </div>
                         <div className="cardFooter">

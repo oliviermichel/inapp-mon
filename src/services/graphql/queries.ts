@@ -7,6 +7,7 @@ fragment itemDataSimple on Message {
     marketCodes { targetItems { field(name: "Market Code") { value } } }
     models { targetItems { field(name:"Id") { value } } }
     image1 { value }
+    message {value}
 }
 
 query SearchItem($id: String!, $language: String!) { 
@@ -48,7 +49,10 @@ item(path: "/sitecore/content/Husqvarna/InAppMessage/AMC/ExplorerRoot") {
     name
     MessageHeader: field(name:"MessageHeader"){name value}
     TeaserHeader: field(name:"TeaserHeader"){name value}
+    TeaserDescription: field(name:"TeaserDescription"){name value}
+    Image: field(name: "Image"){name value}
     path
+    template{name}
     ... on InAppExplorerHeroCard {messages {value}}
     ... on InAppExplorerListCard {messages {value}}
     ... on InAppExplorerLargeCard {messages {value}}

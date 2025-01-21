@@ -9,13 +9,13 @@ export async function getItemFromId(id: string, language: string): Promise<Simpl
 
     const baseUrl = process.env.SITECORE_BASE_URL;
     const graphQlApiUrl = process.env.SITECORE_GRAPHQL_ENDPOINT;
-
+    
     const requestData = {
         query: GetItemFromId,
         variables: { id, language }
     };
     const cookieHeader = aspNetCookie || '';
-
+    
     const response = await fetch(`${baseUrl}${graphQlApiUrl}`, {
         method: 'POST',
         headers: {
@@ -30,7 +30,7 @@ export async function getItemFromId(id: string, language: string): Promise<Simpl
     if (!response.ok) {
         throw new Error(`Request failed with status: ${response.status}`);
     }
-
+    
     const itemData = await response.json();
     const item = new SimpleItem();
 
@@ -39,6 +39,7 @@ export async function getItemFromId(id: string, language: string): Promise<Simpl
         item.id = itemData.data.search.results.items[0].item.id;
         item.imageId = version.image1?.value || '';
         item.campaignName = version.campaignName?.value || '';
+        item.message = version.message?.value || '';
         item.header = version.header?.value || '';
         item.language = version.language?.name || '';
         item.startDate = new Date(version.startDate?.formattedDateValue || '');

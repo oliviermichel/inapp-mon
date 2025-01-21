@@ -68,8 +68,6 @@ function CheckLogin(username: string, password: string): boolean {
     // Dummy implementation for demonstration purposes
     const validUsername = process.env.NEXT_PUBLIC_SITE_USERNAME;
     const validPassword = process.env.NEXT_PUBLIC_SITE_PASSWORD;
-    console.log('validUsername', validUsername);
-    console.log('validPassword', validPassword);
     if (!validUsername || !validPassword) {
         console.error('Please set the valid username and password in the environment variables');
         return false;
