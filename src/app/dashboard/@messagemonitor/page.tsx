@@ -27,11 +27,7 @@ export default async function MessageMonitor() {
             {Object.keys(items).map((key, index) => (
                 
                 <Accordion key={key}>
-                    <AccordionSummary
-                        expandIcon={<ExpandMoreIcon />}
-                        aria-controls="panel1-content"
-                        id="panel1-header"
-                    >
+                    <AccordionSummary>
                         <Typography component="span" color={counts[key].color} className="tableContainer">
                             <table className="table">
                                 {index === 0 && (
