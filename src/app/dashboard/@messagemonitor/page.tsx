@@ -39,7 +39,7 @@ export default async function MessageMonitor() {
                                             <th>Total Messages</th>
                                             <th>Total Visible Messages</th>
                                             <th>Sitecore Errors</th>
-                                            <th>MENO Errors</th>
+                                            <th>MENO Errors (now/future/past)</th>
                                             <th>Market Errors</th>
                                         </tr>
                                     </thead>
