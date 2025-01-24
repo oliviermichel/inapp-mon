@@ -13,14 +13,18 @@ export default async function MessageMonitor() {
     const counts: { [key: string]: {text: string, color: string } } = {};
     Object.keys(items).forEach(key => {
         const nbMessages = items[key].items.length;
-        const nbMenoCheck = nbMessages - items[key].items.filter(x => x.menoCheck).length;
+        const nbMenoCheckError = nbMessages - items[key].items.filter(x => x.menoCheck && x.visible).length;
+        const nbMenoCheckWarning = nbMessages - items[key].items.filter(x => x.menoCheck && x.isFuture).length;
+        const nbMenoCheckGreen = nbMessages - items[key].items.filter(x => x.menoCheck && x.isPast).length;
         const nbSitecoreCheck = nbMessages - items[key].items.filter(x => x.sitecoreCheck).length;
         const nbMarketCheck = nbMessages - items[key].items.filter(x => x.marketCheck).length;
 
-        const text = `${key}: ${nbMessages} messages - Sitecore: ${nbSitecoreCheck} Errors - MENO: ${nbMenoCheck} Errors - Markets: ${nbMarketCheck} Errors`;
-        const color = (nbMenoCheck + nbSitecoreCheck + nbMarketCheck) > 0 ? "" : "";
+        const text = `${key}: ${nbMessages} messages - Sitecore: ${nbSitecoreCheck} Errors - MENO: ${nbMenoCheckError} Errors - Markets: ${nbMarketCheck} Errors`;
+        const color = (nbMenoCheckError + nbSitecoreCheck + nbMarketCheck) > 0 ? "" : "";
         counts[key] = {text: text, color: color };
     });
+
+    
 
     return (
         <div>
@@ -50,8 +54,12 @@ export default async function MessageMonitor() {
                                         <td className={items[key].items.length - items[key].items.filter(x => x.sitecoreCheck).length > 0 ? 'errorCell' : ''}>
                                             {items[key].items.length - items[key].items.filter(x => x.sitecoreCheck).length}
                                         </td>
-                                        <td className={items[key].items.length - items[key].items.filter(x => x.menoCheck).length > 0 ? 'errorCell' : ''}>
-                                            {items[key].items.length - items[key].items.filter(x => x.menoCheck).length}
+                                        <td className={
+                                            items[key].items.filter(x => !x.menoCheck && x.visible).length > 0 ? 'errorCell' : 
+                                            items[key].items.filter(x => !x.menoCheck && x.isFuture).length > 0 ? 'warningCell' : ''}>
+                                            {items[key].items.filter(x => !x.menoCheck && x.visible).length}
+                                            /{items[key].items.filter(x => !x.menoCheck && x.isFuture).length}
+                                            /{items[key].items.filter(x => !x.menoCheck && x.isPast).length}
                                         </td>
                                         <td className={items[key].items.length - items[key].items.filter(x => x.marketCheck).length > 0 ? 'errorCell' : ''}>
                                             {items[key].items.length - items[key].items.filter(x => x.marketCheck).length}

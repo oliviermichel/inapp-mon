@@ -158,6 +158,11 @@ body {
   color: white;
 }
 
+.warningCell {
+  background-color: rgb(228, 142, 14);
+  color: white;
+}
+
 .iconContainer {
   display: flex;
   align-items: center;
