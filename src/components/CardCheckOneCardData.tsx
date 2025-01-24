@@ -7,6 +7,7 @@ import FlightTakeoffIcon from '@mui/icons-material/FlightTakeoff';
 import FlightLandIcon from '@mui/icons-material/FlightLand';
 import DoneIcon from '@mui/icons-material/Done';
 import DangerousIcon from '@mui/icons-material/Dangerous';
+import WarningIcon from '@mui/icons-material/Warning';
 import HelpIcon from '@mui/icons-material/Help';
 import { CardCompleteInfo } from '@/types/CardCompleteInfo';
 
@@ -118,7 +119,7 @@ const CardCheckOneCardData: React.FC<CardCheckOneCardDataProps> = ({ info }) => 
                                         <Typography variant="body2" color="text.secondary">
                                             Is in MENO
                                         </Typography>
-                                        {item.menoCheck ? <DoneIcon color="success" /> : <DangerousIcon color="error" />}
+                                        {item.menoCheck ? <DoneIcon color="success" /> : item.visible ? <DangerousIcon color="error" /> : <WarningIcon color="warning" />}
                                     </div>
                                 </Grid>
                             </Grid>
