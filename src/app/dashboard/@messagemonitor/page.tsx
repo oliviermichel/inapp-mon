@@ -14,8 +14,6 @@ export default async function MessageMonitor() {
     Object.keys(items).forEach(key => {
         const nbMessages = items[key].items.length;
         const nbMenoCheckError = nbMessages - items[key].items.filter(x => x.menoCheck && x.visible).length;
-        const nbMenoCheckWarning = nbMessages - items[key].items.filter(x => x.menoCheck && x.isFuture).length;
-        const nbMenoCheckGreen = nbMessages - items[key].items.filter(x => x.menoCheck && x.isPast).length;
         const nbSitecoreCheck = nbMessages - items[key].items.filter(x => x.sitecoreCheck).length;
         const nbMarketCheck = nbMessages - items[key].items.filter(x => x.marketCheck).length;
 
