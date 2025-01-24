@@ -61,6 +61,7 @@ const CardCheckOneCardData: React.FC<CardCheckOneCardDataProps> = ({ info }) => 
                                         <div>Markets Meno: {item.marketsFromMeno?.join(', ') || ''}</div>
                                         <div>Markets Sitecore: {item.marketsFromSitecore?.join(', ') || ''}</div>
                                         <div>Models: {item.models?.join(', ') || ''}</div>
+                                        <div>Translations: {item.translations?.join(', ') || ''}</div>
                                     </div>
                                 }>
                                     <IconButton>
@@ -94,6 +95,9 @@ const CardCheckOneCardData: React.FC<CardCheckOneCardDataProps> = ({ info }) => 
                             </Typography>
                             <Typography variant="body2" color="text.secondary">
                                 {item.models?.length > 0 ? `Models: ${item.models?.length} models`  : `ALL models`}
+                            </Typography>
+                            <Typography variant="body2" color="text.secondary">
+                                {item.translations?.length > 0 ? `Translations: ${item.translations?.length} translations`  : `no translations`}
                             </Typography>
                         </div>
                         <div className="cardFooter">

@@ -12,6 +12,7 @@ export type CardCheckInfo = {
     marketsFromSitecore: Array<string>;
     marketsFromMeno: Array<string>;
     language: string;
+    translations: Array<string>;
 
     startDateString: string;
     endDateString: string;

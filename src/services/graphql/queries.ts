@@ -39,6 +39,46 @@ query SearchItem($id: String!, $language: String!) {
 }
 `;
 
+export const GetItemFromIdNoLang = `
+fragment itemDataSimple on Message {
+    campaignName { value }
+    header { value }
+    startDate { formattedDateValue }
+    endDate { formattedDateValue }
+    marketCodes { targetItems { field(name: "Market Code") { value } } }
+    models { targetItems { field(name:"Id") { value } } }
+    image1 { value }
+    message {value}
+}
+
+query SearchItem($id: String!) { 
+    search(
+        fieldsEqual: [
+            {
+                name: "_group", 
+                value: $id
+            }
+        ], 
+        rootItem: "/sitecore/content/Husqvarna/InAppMessage/AMC"
+    ) {
+        results {
+            items {
+                item {
+                    id
+                    versions(allLanguages: true) {
+                        language { name }
+                        ...itemDataSimple
+                    }
+                }
+                name
+                id
+                path
+            }
+        }
+    }
+}
+`;
+
 export const GetItemsUnderExplorerRoot = `
 {
 item(path: "/sitecore/content/Husqvarna/InAppMessage/AMC/ExplorerRoot") {

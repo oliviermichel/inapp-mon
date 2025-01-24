@@ -8,6 +8,7 @@ import { fetchItemFromId } from "./fetchItemFromId";
 import { fetchImageUrls } from "./fetchImageUrls";
 import { fetchMessageFromExternalId } from "./fetchMessageFromExternalId";
 import { CardCompleteInfo } from "@/types/CardCompleteInfo";
+import { fetchTranslationTexts } from "./fetchTranslationTexts";
 
 
 export async function performCardCheck(today : Date): Promise<{ [key: string]: CardCompleteInfo }> {
@@ -92,6 +93,7 @@ async function populateCardCheckInfoFromMeno(info: CardCheckInfo, id: string): P
 async function populateCardCheckInfoFromSitecore(info: CardCheckInfo, id: string, sitecoreItem: SitecoreItem, language: string) {
     populateMarketsFromSitecore(info, sitecoreItem);
     populateBasicInfoFromSitecore(info, language, sitecoreItem, id);
+    await populateTranslationsFromSitecore(info, id);
     await populateImageFromSitecore(info, sitecoreItem);
     await populateMenoInfo(info, id);
 }
@@ -103,6 +105,16 @@ function populateMarketsFromSitecore(info: CardCheckInfo, sitecoreItem: Sitecore
             const splitMarkets = marketCode.split('|');
             info.marketsFromSitecore.push(...splitMarkets);
         }
+    }
+}
+
+async function populateTranslationsFromSitecore(info: CardCheckInfo, id: string) {
+    info.translations = [];
+    const items = await fetchTranslationTexts(id);
+    if (items) {
+        Object.keys(items).forEach((lang) => {
+            info.translations.push(lang);
+        });
     }
 }
 
