@@ -9,6 +9,7 @@ import { fetchImageUrls } from "./fetchImageUrls";
 import { fetchMessageFromExternalId } from "./fetchMessageFromExternalId";
 import { CardCompleteInfo } from "@/types/CardCompleteInfo";
 import { fetchTranslationTexts } from "./fetchTranslationTexts";
+import { GetMenoToken } from "./meno/getToken";
 
 
 export async function performCardCheck(today : Date): Promise<{ [key: string]: CardCompleteInfo }> {
@@ -18,6 +19,12 @@ export async function performCardCheck(today : Date): Promise<{ [key: string]: C
         "de-AT", "fr-BE", "de-CH", "de-DE", "da-DK", "fr-FR", "nl-NL", 
         "nb-NO", "sv-SE", "fi-FI", "en-GB", "en-US", "en-gb", "en-001"
     ];
+    try {
+        await GetMenoToken();
+    } catch (error) {
+            console.log(`Failed to retrieve access token from MENO: ${error}`);
+            return result;
+    }
     const listItems = await fetchListItems();
     for (const key in listItems) {
         if (listItems.hasOwnProperty(key)) {

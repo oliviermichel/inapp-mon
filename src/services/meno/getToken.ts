@@ -33,6 +33,10 @@ let tokenExpiration: Date | null = null;
     body: bodyContent,
     headers: headersList
   });
+
+  if (!response.ok) {
+    throw new Error(`Failed to retrieve access token: ${response.statusText}`);
+  } 
    
   const data = await response.json();
   const accessToken = data.access_token || null;

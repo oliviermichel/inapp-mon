@@ -26,7 +26,10 @@ export default async function MessageMonitor() {
 
     return (
         <div>
-            {Object.keys(items).map((key, index) => (
+            {Object.keys(items).length === 0 ? (
+                <Typography color="error">No data available from MENO</Typography>
+            ) : (
+                Object.keys(items).map((key, index) => (
                 
                 <Accordion key={key}>
                     <AccordionSummary>
@@ -71,7 +74,7 @@ export default async function MessageMonitor() {
                         <CardCheckOneCardData info={items[key]} />
                     </AccordionDetails>
                 </Accordion>
-            ))}
+            )))}
         </div>);
 }
 
